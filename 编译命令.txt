@@ -1,0 +1,24 @@
+# ===== 方式 1: CMake =====
+mkdir -p build && cd build
+cmake ..
+make -j$(nproc)
+cd ..
+./build/gc3d_test
+
+# ===== 方式 2: 直接 g++ 编译 =====
+g++ gc3d_test.cpp -o gc3d_test \
+    -I . -I ./GCI \
+    ./lib/libGC3D.a \
+    -L ./lib \
+    -lMvCameraControl -lgxiapi -lcudart \
+    -ldl -lpthread -fopenmp \
+    -Wl,-rpath,./lib \
+    -O2
+
+./gc3d_test
+
+# ===== 调试模式（保存所有19帧图案） =====
+SAVE_FRAMES=1 ./gc3d_test
+
+# ===== 清理 =====
+rm -rf build gc3d_test output/
