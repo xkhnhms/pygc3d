@@ -60,7 +60,7 @@ if __name__ == "__main__":
         cam.print_config()
 
         print("\n[采集]")
-        rgb, depth, points = cam.capture()
+        rgb, depth, points, raw_points = cam.capture()
         print(f"  有效点数: {cam.valid_points}  / {cam.width}x{cam.height}")
 
         if rgb is not None:
@@ -69,6 +69,8 @@ if __name__ == "__main__":
             print(f"  深度图: {depth.shape}  [{depth.min()}, {depth.max()}]")
         if points is not None and len(points) > 0:
             print(f"  点云: {len(points)} 个点")
+        if raw_points is not None and len(raw_points) > 0:
+            print(f"  原始点云: {len(raw_points)} 个点 (含无效点)")
 
         print(f"\n[保存] 前缀: {args.output}")
         cam.save_all(args.output)
